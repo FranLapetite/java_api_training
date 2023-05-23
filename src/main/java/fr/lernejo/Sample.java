@@ -8,7 +8,7 @@ public class Sample {
         return op.func.apply(a, b);
     }
 
-    public int fact(int n) {
+    public int fact(int n) { 
         if (n < 0) {
             throw new IllegalArgumentException("N should be positive");
         }
