@@ -8,7 +8,7 @@ public class Sample {
         return op.func.apply(a, b);
     }
 
-    public int fact(int n) { 
+    public int fact(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("N should be positive");
         }
@@ -17,13 +17,16 @@ public class Sample {
 
     enum Operation {
         ADD((a, b) -> a + b),
-        MULT((a, b) -> a * b),
-        ;
+        MULT((a, b) -> a * b);
 
-        final BiFunction<Integer, Integer, Integer> func;
+        private final BiFunction<Integer, Integer, Integer> func;
 
         Operation(BiFunction<Integer, Integer, Integer> func) {
             this.func = func;
+        }
+
+        public BiFunction<Integer, Integer, Integer> getFunc() {
+            return func;
         }
     }
 }
