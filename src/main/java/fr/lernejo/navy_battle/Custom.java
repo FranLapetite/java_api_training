@@ -9,12 +9,6 @@ import java.io.OutputStream;
 
 public class Custom implements HttpHandler {
 
-    private final Server srv;
-
-    public Custom(Server srv) {
-        this.srv = srv;
-    }
-
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();

@@ -15,7 +15,7 @@ public class Start implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (exchange.getRequestMethod().equals("POST")) {
-            CheckJsonAndRespond(exchange);
+            checkJsonandrespond(exchange);
         } else {
             exchange.sendResponseHeaders(404, "NOT FOUND".length());
             try (OutputStream os = exchange.getResponseBody()) {
@@ -24,7 +24,7 @@ public class Start implements HttpHandler {
         }
     }
 
-    private boolean CheckJson(JSONObject jsonData) {
+    private boolean checkJson(JSONObject jsonData) {
         try {
             File schemaFile = new File("src/main/resources/startJsonSchema.json");
             JSONTokener schemaData = new JSONTokener(new FileInputStream(schemaFile));
@@ -37,9 +37,9 @@ public class Start implements HttpHandler {
         }
     }
 
-    private void CheckJsonAndRespond(HttpExchange exchange) throws IOException{
+    private void checkJsonandrespond(HttpExchange exchange) throws IOException{
         JSONObject jsonData = new JSONObject(new JSONTokener(new InputStreamReader(exchange.getRequestBody())));
-        if (!CheckJson(jsonData))
+        if (!checkJson(jsonData))
         {
             exchange.sendResponseHeaders(400, "BAD REQUEST".length());
             try (OutputStream os = exchange.getResponseBody()) {

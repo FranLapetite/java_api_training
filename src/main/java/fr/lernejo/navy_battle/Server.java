@@ -8,22 +8,28 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    public final int port;
-    public final String url;
-    public final Client clt;
+    private final int port;
+    private final String url;
+    private final Client clt;
 
-    public Server(int port, String url)
-    {
+    public Server(int port, String url) {
         this.clt = null;
         this.port = port;
         this.url = url;
     }
 
-    public Server(int port, String url,String servUrl)
-    {
+    public Server(int port, String url, String servUrl) {
         this.port = port;
-        this.clt = new Client(port,servUrl);
+        this.clt = new Client(port, servUrl);
         this.url = url;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public Client getClt() {
@@ -35,9 +41,9 @@ public class Server {
         server.setExecutor(Executors.newFixedThreadPool(1));
         server.createContext("/ping", new Ping());
         server.createContext("/api/game/start", new Start());
-        server.createContext("/api/game/fire", new Custom(this));
+        server.createContext("/api/game/fire", new Custom());
         server.start();
-        System.out.println("Server started at port : " + this.port);
+        System.out.println("Server started at port: " + this.port);
         return true;
     }
 
