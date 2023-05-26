@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Client {
-    public final HttpClient client;
+    private final HttpClient client;
     final int port;
     final String servUrl;
 

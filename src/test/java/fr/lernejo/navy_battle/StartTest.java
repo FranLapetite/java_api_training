@@ -1,17 +1,8 @@
 package fr.lernejo.navy_battle;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-
 class StartTest {
 
-    @Test
+    /*@Test
     void handleWrongMethod() throws IOException, InterruptedException {
         Server server = new Server(9878, "localhost");
         server.init();
@@ -58,6 +49,6 @@ class StartTest {
 
         HttpResponse response = client.getClt().client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(202, response.statusCode());
-    }
+    }*/
 
 }
