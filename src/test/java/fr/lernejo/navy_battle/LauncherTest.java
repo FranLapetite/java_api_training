@@ -1,14 +1,17 @@
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+package fr.lernejo.navy_battle;
+
 import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.*;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LauncherTest {
     private static final int TEST_PORT = 9876;
@@ -28,28 +31,23 @@ public class LauncherTest {
 
     @Test
     public void testPingHandler() throws IOException, InterruptedException {
-        server.createContext("/ping", new TestPingHandler());
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(java.net.URI.create(TEST_URL))
-            .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(200, response.statusCode());
-        assertEquals("OK", response.body());
-    }
-
-    static class TestPingHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
+        server.createContext("/ping", exchange -> {
             String response = "OK";
             exchange.getResponseHeaders().set("Content-Type", "text/plain");
             exchange.sendResponseHeaders(200, response.length());
             try (OutputStream outputStream = exchange.getResponseBody()) {
                 outputStream.write(response.getBytes());
             }
-        }
+        });
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(TEST_URL))
+            .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertEquals(200, response.statusCode());
+        assertEquals("OK", response.body());
     }
 }

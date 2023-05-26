@@ -1,36 +1,30 @@
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+package fr.lernejo.navy_battle;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
 
 public class Launcher {
-    public static void main(String[] args) throws IOException {
-        if (args.length < 1) {
-            System.err.println("Usage: java Launcher <port>");
-            System.exit(1);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        if (args.length == 1) {
+            startServer(Integer.parseInt(args[0]), "localhost");
+        } else if (args.length == 2) {
+            startServerWithClient(Integer.parseInt(args[0]), "localhost", args[1]);
+        } else {
+            printUsage();
         }
-        int port = Integer.parseInt(args[0]);
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        HttpHandler pingHandler = createPingHandler();
-        server.createContext("/ping", pingHandler);
-        server.start();
-        System.out.println("Server started on port " + port);
     }
 
-    private static HttpHandler createPingHandler() {
-        return new HttpHandler() {
-            @Override
-            public void handle(HttpExchange exchange) throws IOException {
-                String response = "OK";
-                exchange.getResponseHeaders().set("Content-Type", "text/plain");
-                exchange.sendResponseHeaders(200, response.length());
-                try (OutputStream outputStream = exchange.getResponseBody()) {
-                    outputStream.write(response.getBytes());
-                }
-            }
-        };
+    private static void startServer(int port, String host) throws IOException, InterruptedException {
+        Server server = new Server(port, host);
+        server.init();
+    }
+
+    private static void startServerWithClient(int port, String host, String serverPort) throws IOException, InterruptedException {
+        Server server = new Server(port, host, serverPort);
+        server.init();
+        server.getClt().startGame();
+    }
+
+    private static void printUsage() {
+        System.out.println("Usage: java Launcher <Server> port | <Client> port serverPort");
     }
 }
