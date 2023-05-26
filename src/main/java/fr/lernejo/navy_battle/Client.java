@@ -8,8 +8,8 @@ import java.net.http.HttpResponse;
 
 public class Client {
     private final HttpClient client;
-    final int port;
-    final String servUrl;
+    private final int port;
+    private final String servUrl;
 
     public Client(int port, String url)
     {
